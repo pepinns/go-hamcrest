@@ -169,6 +169,10 @@ func AllOf(matchers ...interface{}) Matcher {
 	return &AllOfMatcher{Matchers: tmatchers}
 }
 
+func IsNil() Matcher {
+  return Equals(nil)
+}
+
 // ideas ...
 // IsSerializedProtobufThat  ... to deserialize a protobuf, and then apply given matchers against it...  could be useful with the field/method matchers
 
