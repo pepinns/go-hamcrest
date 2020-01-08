@@ -20,9 +20,14 @@ func (me *AllOfMatcher) Match(other interface{}) MatchResult {
 }
 func (me *AllOfMatcher) WriteDescription(writer DescriptionWriter) {
 	writer.WriteString(" All of the following:( ")
+	writer.NewLine()
 	for idx, matcher := range me.Matchers {
 		if idx > 0 {
-			writer.WriteString(" AND ")
+			writer.NewLine()
+			writer.IncreaseIndent(2)
+			writer.WriteString(" - AND - ")
+			writer.DecreaseIndent(2)
+			writer.NewLine()
 		}
 		matcher.WriteDescription(writer)
 	}
@@ -49,9 +54,12 @@ func (me *AllOfResult) WriteFailureReason(output DescriptionWriter) {
 		output.NewLine()
 	} else {
 		output.WriteString("All Of (")
+		output.IncreaseIndent(1)
 		for _, item := range me.Failures {
+			output.NewLine()
 			item.WriteFailureReason(output)
 		}
+		output.DecreaseIndent(1)
 	}
 	output.WriteString(")")
 

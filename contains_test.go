@@ -72,3 +72,19 @@ func TestInt32SliceCanContainInt16(t *testing.T) {
 func TestIntegerSliceCanNotContainInt(t *testing.T) {
 	Assert(t).That([]int{34, 38}, Not(Contains(438)))
 }
+
+type Foo struct {
+	Name string
+}
+
+func TestContainsMixedWithHasFieldCanFindFieldInPtrObjByNameAndValue(t *testing.T) {
+	slice := []*Foo{{"Name1"}}
+
+	Assert(t).That(slice, Contains(HasFieldThat("Name", Equals("Name1"))))
+}
+
+func TestContainsMixedWithHasFieldCanFindFieldByNameAndValue(t *testing.T) {
+	slice := []Foo{{"Name1"}}
+
+	Assert(t).That(slice, Contains(HasFieldThat("Name", Equals("Name1"))))
+}

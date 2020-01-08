@@ -6,12 +6,14 @@ import (
 )
 
 func AssertFailureMessage(t TestT, value interface{}, matcher Matcher, failureMessageMatcher Matcher) {
+	t.Helper()
 	result := matcher.Match(value)
 	description := &FormattingDescriptionWriter{}
 	result.WriteFailureReason(description)
 	Assert(t).That(description.String(), failureMessageMatcher)
 }
 func AssertFailureString(t TestT, value interface{}, matcher Matcher, failureMessage string) {
+	t.Helper()
 	result := matcher.Match(value)
 	description := &FormattingDescriptionWriter{}
 	result.WriteFailureReason(description)

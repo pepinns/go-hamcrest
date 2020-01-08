@@ -67,11 +67,18 @@ func makeContainsMatcher(o interface{}) Matcher {
 //
 // If the value is a Matcher, it is returned, if it is not, then it is
 // wrapped in an Equals matcher.
+// Input should be Array, Chan, Map, Slice, or String
 func WrapMatcher(o interface{}) Matcher {
 	if matcher, ok := o.(Matcher); ok {
 		return matcher
 	}
 	return Equals(o)
+}
+
+// HasLen
+// Compares the input's length against the supplied matcher
+func HasLen(o interface{}) Matcher {
+	return &HasLenMatcher{WrapMatcher(o)}
 }
 
 // WrapAllMatcher  wraps the supplied interface{} values as matchers.
@@ -119,6 +126,11 @@ func IsAnything() Matcher {
 // matcher given to this function.  This saves you from having to check for nil, before dereferencing pointers in your test assertions.
 func IsPtrThat(o interface{}) Matcher {
 	return &IsPointerMatcher{WrapMatcher(o)}
+}
+
+// HasField checks that astruct has a field, and then validates the matcher against that struct field's value.
+func HasField(fieldNameMatcher interface{}, fieldValueMatcher interface{}) Matcher {
+	return HasFieldThat(fieldNameMatcher, fieldValueMatcher)
 }
 
 // HasFieldThat checks that astruct has a field, and then validates the matcher against that struct field's value.

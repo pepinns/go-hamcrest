@@ -38,6 +38,7 @@ func SetDescriptionWriter(output func() DescriptionWriter) {
 type TestT interface {
 	Fatalf(string, ...interface{})
 	Fatal(...interface{})
+	Helper()
 }
 
 func Assert(t TestT) Asserter {
@@ -50,6 +51,7 @@ type FatalAsserter struct {
 }
 
 func (me *FatalAsserter) That(to_match interface{}, m Matcher, args ...interface{}) {
+	me.TestT.Helper()
 	result := m.Match(to_match)
 	if !result.Matched() {
 		var description = me.NewWriter()
@@ -64,6 +66,15 @@ func (me *FatalAsserter) That(to_match interface{}, m Matcher, args ...interface
 		reset()
 		description.NewLine()
 		result.WriteFailureReason(description)
+
+		if len(args) > 0 {
+			if fmtStr, ok := args[0].(string); ok {
+				description.NewLine()
+				description.WriteString("Extra Message:")
+				description.NewLine()
+				description.WriteStringf(fmtStr, args[1:]...)
+			}
+		}
 
 		me.TestT.Fatal(description.String())
 	}

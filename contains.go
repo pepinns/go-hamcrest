@@ -55,7 +55,11 @@ func (me *ListContainsMatcher) Match(other interface{}) MatchResult {
 	case reflect.Slice, reflect.Array:
 		for i := 0; i < rval.Len(); i++ {
 			val := rval.Index(i)
-			result.Add(i, val.String(), me.ItemMatcher.Match(val))
+			if val.CanInterface() {
+				result.Add(i, val.String(), me.ItemMatcher.Match(val.Interface()))
+			} else {
+				result.Add(i, val.String(), me.ItemMatcher.Match(val))
+			}
 		}
 	}
 	return result

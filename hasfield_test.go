@@ -21,8 +21,16 @@ func TestHasFieldMatcherMatchesOnPogoField(t *testing.T) {
 func TestHasFieldDescriptionIsClear(t *testing.T) {
 	AssertFailureMessage(t, &TestObject{FieldOne: "stringyful"}, HasFieldThat("FieldOne", Equals("notmatched")), Equals(`failed to match [
   failed [FieldOne:stringyful] because "stringyful" is not equal to "notmatched"
-  failed [FieldTwo:<>] because "FieldTwo" is not equal to "FieldOne"
 ]`))
+}
+
+type TestNested struct {
+	InnerPtr *TestObject
+}
+
+func TestNestedHasFieldWithNulls(t *testing.T) {
+	tt := &TestNested{}
+	Assert(t).That(tt, HasField("InnerPtr", HasField("FieldOne", "Four")))var 
 }
 
 func TestHasFieldDescriptionIsClearWhenComplexMatchersUsed(t *testing.T) {
