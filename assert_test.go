@@ -1,7 +1,7 @@
 package hamcrest_test
 
 import (
-	. "hamcrest"
+	. "github.com/pepinns/go-hamcrest"
 	"strings"
 )
 

@@ -2,7 +2,7 @@ package hamcrest_test
 
 import (
 	"bytes"
-	. "hamcrest"
+	. "github.com/pepinns/go-hamcrest"
 	"io"
 	"testing"
 )
