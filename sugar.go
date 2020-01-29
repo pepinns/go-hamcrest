@@ -10,6 +10,18 @@ func HasPrefix(val string) Matcher {
 	return &StringPrefixMatcher{Other: val}
 }
 
+func GreaterThan(o interface{}) Matcher {
+	reflect.ValueOf(o).Type()
+	switch val := o.(type) {
+	case int8, int16, int32, int, int64:
+		return &IntegerGreaterThanMatcher{reflect.ValueOf(val).Int()}
+	case uint8, uint16, uint32, uint, uint64:
+		return &UIntegerGreaterThanMatcher{reflect.ValueOf(val).Uint()}
+	}
+
+	panic(fmt.Sprintf("Don't know how to do GreaterThan match on type: %T", o))
+}
+
 // Equals
 // compares two things to see if they're equal
 //
@@ -170,7 +182,7 @@ func AllOf(matchers ...interface{}) Matcher {
 }
 
 func IsNil() Matcher {
-  return Equals(nil)
+	return Equals(nil)
 }
 
 // ideas ...
