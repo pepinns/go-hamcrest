@@ -3,6 +3,7 @@ package hamcrest
 import (
 	"fmt"
 	"reflect"
+	"regexp"
 )
 
 // HasPrefix Match a prefix against a string
@@ -10,6 +11,18 @@ func HasPrefix(val string) Matcher {
 	return &StringPrefixMatcher{Other: val}
 }
 
+// RegexMatches Match against a regular expression
+func RegexMatches(expr string) Matcher {
+	reg, err := regexp.Compile(expr)
+	if err != nil {
+		panic(err)
+	}
+	return &RegexMatcher{reg}
+}
+
+// GreaterThan match if greater than
+//
+// Will compare different numbers types without requiring you to cast the numbers yourself.
 func GreaterThan(o interface{}) Matcher {
 	reflect.ValueOf(o).Type()
 	switch val := o.(type) {
