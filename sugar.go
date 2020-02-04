@@ -24,7 +24,6 @@ func RegexMatches(expr string) Matcher {
 //
 // Will compare different numbers types without requiring you to cast the numbers yourself.
 func GreaterThan(o interface{}) Matcher {
-	reflect.ValueOf(o).Type()
 	switch val := o.(type) {
 	case int8, int16, int32, int, int64:
 		return &IntegerGreaterThanMatcher{reflect.ValueOf(val).Int()}
@@ -40,6 +39,9 @@ func GreaterThan(o interface{}) Matcher {
 //
 // This method has looser rules around comparing numbers.  For example uint8(2) == int(2) == int32(2).  This is intentional, to allow for an easier time testing using integer contants, avoiding the need to wrap integer constants with casts.
 func Equals(o interface{}) Matcher {
+	if o == nil {
+		return &IsNilMatcher{}
+	}
 	switch val := o.(type) {
 	case string:
 		return &StringEqualsMatcher{MatchValue: val}
@@ -195,7 +197,7 @@ func AllOf(matchers ...interface{}) Matcher {
 }
 
 func IsNil() Matcher {
-	return Equals(nil)
+	return &IsNilMatcher{}
 }
 
 // ideas ...
