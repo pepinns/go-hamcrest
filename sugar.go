@@ -87,6 +87,14 @@ func makeContainsMatcher(o interface{}) Matcher {
 	return &ListContainsMatcher{ItemMatcher: WrapMatcher(o)}
 }
 
+func ContainsSequence(o ...interface{}) Matcher {
+	sc := &SequenceContainsMatcher{}
+	for _, m := range o {
+		sc.Matchers = append(sc.Matchers, WrapMatcher(m))
+	}
+	return sc
+}
+
 // WrapMatcher
 // Wraps the given interface value into a Matcher.
 //
