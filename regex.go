@@ -16,7 +16,7 @@ func (me *RegexMatcher) Match(other interface{}) MatchResult {
 
 	if me.MatchAgainst.Match([]byte(toMatch)) {
 		result.IsMatched = true
-		result.Description = fmt.Sprintf("%s does not match %s", toMatch, me.MatchAgainst)
+		result.Description = fmt.Sprintf("%s matches %s", toMatch, me.MatchAgainst)
 	} else {
 		result.Description = fmt.Sprintf("%s does NOT match %s", toMatch, me.MatchAgainst)
 	}
