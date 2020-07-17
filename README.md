@@ -24,8 +24,9 @@ The following code
 package hamcrest_test
 
 import (
-    . "hamcrest"
     "testing"
+
+    . "github.com/pepinns/go-hamcrest"
 )
 
 func TestStringEqualsFailsWithAsserter(t *testing.T) {
@@ -49,8 +50,9 @@ The following Code
 
 ``` go
 import (
-    . "hamcrest"
     "testing"
+
+    . "github.com/pepinns/go-hamcrest"
 )
 
 type TestObject struct {
