@@ -204,8 +204,19 @@ func AllOf(matchers ...interface{}) Matcher {
 	return &AllOfMatcher{Matchers: tmatchers}
 }
 
+// IsNil matches only nil values
 func IsNil() Matcher {
 	return &IsNilMatcher{}
+}
+
+// IsTrue matches only true values
+func IsTrue() Matcher {
+	return NewFormatEqualsMatcher(true, formatBool)
+}
+
+// IsFalse matches only true values
+func IsFalse() Matcher {
+	return NewFormatEqualsMatcher(false, formatBool)
 }
 
 // ideas ...
