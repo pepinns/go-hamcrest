@@ -1,8 +1,9 @@
 package hamcrest_test
 
 import (
-	. "github.com/pepinns/go-hamcrest"
 	"testing"
+
+	. "github.com/pepinns/go-hamcrest"
 )
 
 func TestStringEqualsReturnsTrueOnEquality(t *testing.T) {
@@ -114,4 +115,20 @@ func TestEqualsCanCompareMaps(t *testing.T) {
 	sourceMap["foo"] = "bar"
 	testMap["foo"] = "bar"
 	Assert(t).That(sourceMap, Equals(testMap))
+}
+
+func TestIsTrueMatches(t *testing.T) {
+	Assert(t).That(true, IsTrue())
+}
+
+func TestIsTrueFails(t *testing.T) {
+	AssertFailureMessage(t, false, IsTrue(), Equals(`"false" is not equal to "true"`))
+}
+
+func TestIsFalse(t *testing.T) {
+	Assert(t).That(false, IsFalse())
+}
+
+func TestIsFalseFails(t *testing.T) {
+	AssertFailureMessage(t, true, IsFalse(), Equals(`"true" is not equal to "false"`))
 }
