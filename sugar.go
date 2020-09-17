@@ -204,6 +204,16 @@ func AllOf(matchers ...interface{}) Matcher {
 	return &AllOfMatcher{Matchers: tmatchers}
 }
 
+// AnyOf
+// Logical OR of all the supplied matchers
+func AnyOf(matchers ...interface{}) Matcher {
+	tmatchers := make([]Matcher, len(matchers))
+	for idx, m := range matchers {
+		tmatchers[idx] = m.(Matcher)
+	}
+	return &AnyOfMatcher{Matchers: tmatchers}
+}
+
 // IsNil matches only nil values
 func IsNil() Matcher {
 	return &IsNilMatcher{}
