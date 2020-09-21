@@ -20,7 +20,11 @@ func (me *HasItemMatcher) Match(other interface{}) MatchResult {
 			if itemResult.KeyResult.Matched() {
 				itemVal := val.MapIndex(keyVal)
 				itemResult.ValueDescription = itemVal.String()
-				itemResult.ValueResult = me.ValueMatcher.Match(itemVal)
+				if itemVal.CanInterface() {
+					itemResult.ValueResult = me.ValueMatcher.Match(itemVal.Interface())
+				} else {
+					itemResult.ValueResult = me.ValueMatcher.Match(itemVal)
+				}
 			}
 			result.Add(itemResult)
 			if itemResult.Matched() {

@@ -1,8 +1,9 @@
 package hamcrest_test
 
 import (
-	. "github.com/pepinns/go-hamcrest"
 	"testing"
+
+	. "github.com/pepinns/go-hamcrest"
 )
 
 func TestHasItemMatchesWhenItemInMap(t *testing.T) {
@@ -42,4 +43,18 @@ func TestHasItemMessageIsClearWhenKeyDoesNotMatch(t *testing.T) {
 	AssertFailureMessage(t, mm, HasItem("test1", "value3"), Equals(`failed to match [
   failed [test:<>] because "test" is not equal to "test1"
 ]`))
+}
+
+func TestCanMatchHasItemAndHasField(t *testing.T) {
+	type testVal struct {
+		Value string
+	}
+	mm := make(map[string]*testVal)
+
+	mm["test"] = &testVal{"value"}
+	Assert(t).That(mm,
+		HasItem("test",
+			HasField("Value", "value"),
+		),
+	)
 }
