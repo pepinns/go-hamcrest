@@ -89,6 +89,12 @@ func makeContainsMatcher(o interface{}) Matcher {
 	return &ListContainsMatcher{ItemMatcher: WrapMatcher(o)}
 }
 
+// ContainsSequence
+// matches against a specific sequence of items
+//
+// This can be used to match against Array or Slice types
+// each of the matchers must match a contiguous set of indices
+// in they order they appear
 func ContainsSequence(o ...interface{}) Matcher {
 	sc := &SequenceContainsMatcher{}
 	for _, m := range o {
