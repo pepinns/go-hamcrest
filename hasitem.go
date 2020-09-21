@@ -1,6 +1,7 @@
 package hamcrest
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -23,7 +24,7 @@ func (me *HasItemMatcher) Match(other interface{}) MatchResult {
 				if itemVal.CanInterface() {
 					itemResult.ValueResult = me.ValueMatcher.Match(itemVal.Interface())
 				} else {
-					itemResult.ValueResult = me.ValueMatcher.Match(itemVal)
+					itemResult.ValueResult = &SimpleResult{IsMatched: false, Description: fmt.Sprintf("could not get interface of %s", itemVal)}
 				}
 			}
 			result.Add(itemResult)
