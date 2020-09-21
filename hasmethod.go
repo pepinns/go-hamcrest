@@ -34,7 +34,13 @@ func (me *HasMethodMatcher) Match(input interface{}) MatchResult {
 		if idx > 0 {
 			sb.WriteRune(',')
 		}
-		methodResults.Results = append(methodResults.Results, matcher.Match(methodReturn[idx]))
+		var res MatchResult
+		if methodReturn[idx].CanInterface() {
+			res = matcher.Match(methodReturn[idx].Interface())
+		} else {
+			res = &SimpleResult{IsMatched: false, Description: fmt.Sprintf("could not get interface of return value %d: %s", idx, methodReturn[idx])}
+		}
+		methodResults.Results = append(methodResults.Results, res)
 		sb.WriteString(methodReturn[idx].String())
 
 	}

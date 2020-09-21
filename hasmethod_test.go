@@ -1,8 +1,9 @@
 package hamcrest_test
 
 import (
-	. "github.com/pepinns/go-hamcrest"
 	"testing"
+
+	. "github.com/pepinns/go-hamcrest"
 )
 
 type TestObjectWithGetMethod struct {
@@ -37,4 +38,26 @@ func TestHasMethodResponseIsClear(t *testing.T) {
 }
 func TestHasMethodResponseIsClearWhenTwoReturnValues(t *testing.T) {
 	AssertFailureMessage(t, &TestObjectWithGetMethod{"TestValue"}, HasMethodThatReturns("GetTwoValues", "TestValue", "TestSecondValue"), Contains(`is equal to "TestSecondValue"`))
+}
+
+type testVal struct {
+	Value string
+}
+type testValMethod struct {
+	val  *testVal
+	val2 *testVal
+}
+
+func (me *testValMethod) Funcy() (*testVal, *testVal) {
+	return me.val, me.val2
+}
+func TestCanMatchHasFieldAfterHasMethod(t *testing.T) {
+	tt := &testValMethod{&testVal{"value"}, &testVal{"value2"}}
+
+	Assert(t).That(tt,
+		HasMethodThatReturns("Funcy",
+			HasField("Value", "value"),
+			HasField("Value", "value2"),
+		),
+	)
 }
