@@ -1,6 +1,9 @@
 package hamcrest
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 type SequenceContainsMatcher struct {
 	Matchers []Matcher
@@ -13,7 +16,7 @@ func (me *SequenceContainsMatcher) Match(other interface{}) MatchResult {
 	rval := reflect.ValueOf(other)
 	switch rval.Kind() {
 	case reflect.Slice, reflect.Array:
-		for i := 0; i < rval.Len(); i++ {
+		for i := 0; i < rval.Len() && seqIndex < len(me.Matchers); i++ {
 			val := rval.Index(i)
 			nextMatcher := me.Matchers[seqIndex]
 			var res MatchResult
@@ -29,6 +32,13 @@ func (me *SequenceContainsMatcher) Match(other interface{}) MatchResult {
 			}
 			result.Add(i, seqIndex, res)
 			seqIndex++
+		}
+		if seqIndex < len(me.Matchers) {
+			res := &SimpleResult{
+				Description: fmt.Sprintf("Ran out of fields to match on. %d matchers left in sequence", len(me.Matchers)-seqIndex),
+				IsMatched:   false,
+			}
+			result.Add(rval.Len(), seqIndex, res)
 		}
 	}
 	return result
