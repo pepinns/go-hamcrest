@@ -1,6 +1,8 @@
 Go Hamcrest 
 =========================
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/pepinns/go-hamcrest.svg)](https://pkg.go.dev/github.com/pepinns/go-hamcrest)
+
 This library is a port of the [Hamcrest java library](http://hamcrest.org/).
 
 Its purpose is to make tests easier to develop, as well as making test failures easier to understand.
