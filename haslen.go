@@ -17,6 +17,7 @@ func (me *HasLenMatcher) Match(other interface{}) MatchResult {
 	case reflect.Slice,
 		reflect.Chan,
 		reflect.Array,
+		reflect.Map,
 		reflect.String:
 		result.len = val.Len()
 		result.LenResult = me.LengthMatcher.Match(val.Len())
