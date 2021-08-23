@@ -1,12 +1,17 @@
 package hamcrest_test
 
 import (
-	. "github.com/pepinns/go-hamcrest"
 	"testing"
+
+	. "github.com/pepinns/go-hamcrest"
 )
 
 func TestHasLenCanMatchStringLength(t *testing.T) {
 	Assert(t).That("one", HasLen(3))
+}
+
+func TestHasLenCanMatchMapLength(t *testing.T) {
+	Assert(t).That(map[string]string{"a": "b", "c": "d"}, HasLen(2))
 }
 
 func TestHasLenCanMatchSliceLength(t *testing.T) {
