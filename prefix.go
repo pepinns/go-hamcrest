@@ -25,6 +25,6 @@ func (me *StringPrefixMatcher) Match(input interface{}) MatchResult {
 }
 
 func (me *StringPrefixMatcher) WriteDescription(output DescriptionWriter) {
-	output.WriteString("a string that starts wtih ")
+	output.WriteString("a string that starts with ")
 	output.WriteString(me.Other)
 }

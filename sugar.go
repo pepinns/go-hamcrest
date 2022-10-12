@@ -198,10 +198,11 @@ func HasMethodThatReturns(methodName string, methodResultMatcher ...interface{})
 // This will match regardless of the ordering of the slice, since we're doing
 // 2 separate checks to see if the item is in the slice.
 // Assert(t).That([]string{"string1", "string2", "string4"}, AllOf(
-// 	Contains("string1"),
-// 	Contains("string2"),
-// ))
 //
+//	Contains("string1"),
+//	Contains("string2"),
+//
+// ))
 func AllOf(matchers ...interface{}) Matcher {
 	tmatchers := make([]Matcher, len(matchers))
 	for idx, m := range matchers {
@@ -233,6 +234,11 @@ func IsTrue() Matcher {
 // IsFalse matches only true values
 func IsFalse() Matcher {
 	return NewFormatEqualsMatcher(false, formatBool)
+}
+
+// IsError using errors.Is to match
+func IsError(err error) Matcher {
+	return &IsErrorMatcher{err}
 }
 
 // ideas ...
